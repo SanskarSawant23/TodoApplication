@@ -1,10 +1,16 @@
 import express from "express"
 import {createTodo, updateTodo} from './types.js'
 import { Prisma, PrismaClient } from '@prisma/client';
+import cors from "cors"
+
 const app = express();
 const port = 3000
 
 //parse the body is the body is json
+
+app.use(cors({
+    origin:"http://localhost:5173"
+}))
 app.use(express.json()); //this is middleware which is going to run before ever path.
 
 
@@ -12,6 +18,7 @@ app.use(express.json()); //this is middleware which is going to run before ever 
 app.post('/todos', async(req, res)=>{
     //request the user for title and description.
     const createPayload = req.body;
+ 
     const parsedPayload = createTodo.safeParse(createPayload);
     console.log(parsedPayload.success);
     
